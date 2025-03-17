@@ -1,4 +1,6 @@
 package com.grupposad.esercitazione1703.calculator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class CalculatorUI {
@@ -6,7 +8,9 @@ public class CalculatorUI {
                                     "\n ### Main operations are ### " + 
                                     "\n 1. Basic operation (i.e. 5+5) " + 
                                     "\n 2. Chained operations (i.e. ans-3) " + 
-                                    "\n 3. Scientific operations (i.e. sin, log, exp) " +
+                                    "\n 3. Scientific operations (i.e. sin, log, exp) " + 
+                                    "\n 4. Clear ANS " + 
+                                    "\n 5. Read Memory (See last operations)" + 
                                     "\n 7. To print this message again " + 
                                     "\n 8. To exit " + 
                                     "\n ### Select an input ### \n";
@@ -31,6 +35,12 @@ public class CalculatorUI {
                     break;
                 case "3":
                     o3();
+                    break;
+                case "4":
+                    o4();
+                    break;
+                case "5":
+                    o5();
                     break;
                 case "7":
                     continue;
@@ -104,6 +114,34 @@ public class CalculatorUI {
         }
 
         System.out.println("\n Result: " + calculator.basicEvaluation(a, b, operation));
+    }
+
+    public void o4() {
+        calculator.clear();
+    }
+
+    public void o5() {
+        System.out.println("\n ### LAST OPERATIONS ###");
+        int count = 1;
+        List<String> operations = calculator.readMemory();
+
+        for (String op : operations) {
+            System.out.println("\n" + count + "\t" + op);
+            count += 1;
+        }
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("\n ### Select an operation to get the result as new ANS ### \n");
+        String num = scanner.nextLine();
+
+        int n = Integer.parseInt(num);
+
+        String operation = operations.get(n);
+        
+        Double lastResult = Double.parseDouble(operation.split("=")[1]);
+
+        calculator.setANS(lastResult);
     }
 
 }
