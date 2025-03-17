@@ -1,5 +1,6 @@
 package com.grupposad.esercitazione1703.calculator;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -66,7 +67,44 @@ public class Calculator {
     public void writeToMemory(String element) {
         memory.write(element);
     }
+
+    public Double evaluateExpression(String expressionStr) throws Exception {
+        Expression expression = new Expression(expressionStr);
+        
+        List<Double> values = new ArrayList<>();
+        List<Operation> operations = new ArrayList<>();
     
+        values.add(expression.nextReal());
+    
+        while (expression.hasNext()) {
+            // Se è una parentesi chiusa, termina la valutazione corrente
+            if (expression.get(expression.getPosition()) == ')') {
+                break;
+            }
+    
+            Operation operation = expression.nextOperation();
+            Double nextValue = expression.nextReal();
+    
+            // Gestione priorità delle operazioni
+            if (operation.getSymbol().equals("*") || operation.getSymbol().equals("/") || operation.getSymbol().equals(":")) {
+                Double prevValue = values.remove(values.size() - 1);
+                nextValue = operation.calculate(prevValue, nextValue);
+                values.add(nextValue); // Aggiunge il risultato combinato
+            } else {
+                operations.add(operation);
+                values.add(nextValue);
+            }
+        }
+    
+        // Esegue le somme e sottrazioni rimaste
+        Double result = values.get(0);
+        for (int i = 0; i < operations.size(); i++) {
+            result = operations.get(i).calculate(result, values.get(i + 1));
+        }
+    
+        return result;
+    }
+
     public class Memory {
         private List<String> operations;
 
