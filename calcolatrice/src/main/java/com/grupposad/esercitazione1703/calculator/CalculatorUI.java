@@ -1,5 +1,4 @@
 package com.grupposad.esercitazione1703.calculator;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,6 +10,7 @@ public class CalculatorUI {
                                     "\n 3. Scientific operations (i.e. sin, log, exp) " + 
                                     "\n 4. Clear ANS " + 
                                     "\n 5. Read Memory (See last operations)" + 
+                                    "\n 6. Expression " + 
                                     "\n 7. To print this message again " + 
                                     "\n 8. To exit " + 
                                     "\n ### Select an input ### \n";
@@ -41,6 +41,9 @@ public class CalculatorUI {
                     break;
                 case "5":
                     o5();
+                    break;
+                case "6":
+                    o6();
                     break;
                 case "7":
                     continue;
@@ -142,6 +145,20 @@ public class CalculatorUI {
         Double lastResult = Double.parseDouble(operation.split("=")[1]);
 
         calculator.setANS(lastResult);
+    }
+
+    public void o6() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("\n ### Digit the expression ### \n");
+        String expression = scanner.nextLine();
+
+        try {
+            System.out.println("\n ### Result: ### " + calculator.evaluateExpression(expression));
+        } catch (Exception e) {
+            System.out.println("\n ### There was an error ### \n");
+        }
+
     }
 
 }
