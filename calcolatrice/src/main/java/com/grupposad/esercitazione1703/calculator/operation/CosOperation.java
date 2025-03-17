@@ -4,6 +4,9 @@ public class CosOperation extends Operation {
 
     @Override
     public Double calculate(Double a, Double b) {
+        if (a == null) {
+            throw new IllegalArgumentException("Errore: Il valore di input non può essere nullo.");
+        }
         // a: degrees
         double radians = Math.toRadians(a); 
         return Math.cos(radians);
